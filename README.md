@@ -2,7 +2,7 @@
 
 Hello!
 
-if you are interested in Itti Saliency implementation on Python3, this code wold help you :-)🤗
+if you are interested in Itti Saliency implementation on Python3, this code would help you :-)🤗
 
 I tried to not involve classes(which is hard to read sometime) and made a universal function by which you can get anything youwant.🥰
 
