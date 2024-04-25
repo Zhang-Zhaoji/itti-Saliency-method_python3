@@ -19,7 +19,8 @@ Anyway, havefun!😉
 python >= 3.8
 
 opencv-python or opencv-contrib-python == 4.9.0.80
-I would recommend the second package, if you want to use more salience-computing function.
+
+(I would recommend the second package, if you want to use more salience-computing function or other functions which are not contained in the official package.)
 
 numpy == 1.26.4
 
