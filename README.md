@@ -14,6 +14,12 @@ I also upload a presentation file of explaining Itti's method and describing thi
 
 Anyway, havefun!😉
 
+### ===update===
+
+a new file change_itti_Saliency was uploaded, which could solve the problem that the model could not tell the difference betwen red and green!
+
+![1719369309506](image/README/1719369309506.png)
+
 ## Prerequisite
 
 python >= 3.8
