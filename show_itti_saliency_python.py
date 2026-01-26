@@ -3,23 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.ndimage import maximum_filter
 
-
-
-import time  
-   
-def timer(func):  
-    def wrapper(*args, **kwargs):  
-        start_time = time.time()  
-        result = func(*args, **kwargs)  
-        end_time = time.time()  
-        print(f"{func.__name__} took {end_time - start_time:.5f} seconds to execute.")  
-        return result  
-    return wrapper  
-
-
-
-
-
 ##-----------------------##
 """
 If you want to use this code, you can just \n
@@ -214,7 +197,7 @@ def show_orientation_map(O_dict):
 the following function is the most important function
 """
 ##--------------------------##
-@timer
+
 def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False):
     print("reading image")
     try:
@@ -251,29 +234,34 @@ def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False)
     Gs = [g[i]-(r[i]+b[i])/2 for i in range(9)]
     Bs = [b[i]-(g[i]+r[i])/2 for i in range(9)]
     Ys = [(r[i]+g[i])/2 - np.abs(r[i] - g[i])/2 - b[i] for i in range(9)]
-    
-    Rs = [np.where(img>0,img,0) for img in Rs]
-    Gs = [np.where(img>0,img,0) for img in Gs]
-    Bs = [np.where(img>0,img,0) for img in Bs]
-    Ys = [np.where(img>0,img,0) for img in Ys]
 
-    # pIs,pRs,pGs,pBs,pYs,pOs,pDs = Itti_down_sampling_PYROri(image)
-    #fig,((ax11,ax12,ax13,ax14,ax15,ax16,ax17,ax18,ax19),\
-    #     (ax21,ax22,ax23,ax24,ax25,ax26,ax27,ax28,ax29),\
-    #     (ax31,ax32,ax33,ax34,ax35,ax36,ax37,ax38,ax39),\
-    #     (ax41,ax42,ax43,ax44,ax45,ax46,ax47,ax48,ax49),\
-    #     (ax51,ax52,ax53,ax54,ax55,ax56,ax57,ax58,ax59),
-    #     (ax61,ax62,ax63,ax64,ax65,ax66,ax67,ax68,ax69)) = plt.subplots(6,9)
-    #full_lst = [[],Is,I2s,Rs,Gs,Bs,Ys]
-    #for img_index in range(1,7):
-    #    for scale_index in range(1,10):
-    #        exec(f"ax{img_index}{scale_index}.imshow(full_lst[{img_index}][{scale_index-1}])")
-    # plt.show()
+     # pIs,pRs,pGs,pBs,pYs,pOs,pDs = Itti_down_sampling_PYROri(image)
+    fig,((ax11,ax12,ax13,ax14,ax15,ax16,ax17,ax18,ax19),\
+         (ax21,ax22,ax23,ax24,ax25,ax26,ax27,ax28,ax29),\
+         (ax31,ax32,ax33,ax34,ax35,ax36,ax37,ax38,ax39),\
+         (ax41,ax42,ax43,ax44,ax45,ax46,ax47,ax48,ax49),\
+         (ax51,ax52,ax53,ax54,ax55,ax56,ax57,ax58,ax59),
+         (ax61,ax62,ax63,ax64,ax65,ax66,ax67,ax68,ax69)) = plt.subplots(6,9)
+    full_lst = [[],Is,I2s,Rs,Gs,Bs,Ys]
+    for img_index in range(1,7):
+        for scale_index in range(1,10):
+            exec(f"ax{img_index}{scale_index}.imshow(full_lst[{img_index}][{scale_index-1}])")
+    plt.show()
 
 
     kernel_0, kernel_45, kernel_90, kernel_135 = processing_gabor_filters()
 
     Os = [gabor_filter(Is[i],kernel_0,kernel_45,kernel_90,kernel_135) for i in range(9)]
+
+    fig,((ax11,ax12,ax13,ax14,ax15,ax16,ax17,ax18,ax19),\
+         (ax21,ax22,ax23,ax24,ax25,ax26,ax27,ax28,ax29),\
+         (ax31,ax32,ax33,ax34,ax35,ax36,ax37,ax38,ax39),\
+         (ax41,ax42,ax43,ax44,ax45,ax46,ax47,ax48,ax49)) = plt.subplots(4,9)
+
+    for degree_index in range(0,4):
+        for scale_index in range(1,10):
+            exec(f"ax{degree_index+1}{scale_index}.imshow(Os[{scale_index-1}][{degree_index}])")
+    plt.show()
 
     c_set = (2,3,4)
     delta_set = (3,4)
@@ -324,6 +312,30 @@ def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False)
     for O_bar_theta in [O_bar_0, O_bar_45, O_bar_90, O_bar_135]:
         O_bar = addition(O_bar,normalize_img(O_bar_theta),addition_shape)
     S = (normalize_img(I_bar) + normalize_img(C_bar) + normalize_img(O_bar))/3
+    if ifshow:=True :
+        fig,((ax11,ax12,ax13,ax14,ax15,ax16),\
+             (ax21,ax22,ax23,ax24,ax25,ax26),\
+             (ax31,ax32,ax33,ax34,ax35,ax36)) = plt.subplots(3,6)
+        lists = [(2,5),(2,6),(3,6),(3,7),(4,7),(4,8)]
+        for col in range(1,7):
+                exec(f"ax{1}{col}.imshow(I_dict[{lists[col-1]}])")
+                exec(f"ax{1}{col}.set_title({lists[col-1]})")
+                exec(f"ax{2}{col}.imshow(RG_dict[{lists[col-1]}])")
+                exec(f"ax{3}{col}.imshow(BY_dict[{lists[col-1]}])")
+        plt.show()
+
+        fig,((ax11,ax12,ax13,ax14,ax15,ax16),\
+             (ax21,ax22,ax23,ax24,ax25,ax26),\
+             (ax31,ax32,ax33,ax34,ax35,ax36),\
+             (ax41,ax42,ax43,ax44,ax45,ax46)) = plt.subplots(4,6)
+        for col in range(1,7):
+                exec(f"ax{1}{col}.imshow(O_dict[{(lists[col-1][0],lists[col-1][1],0)}])")
+                exec(f"ax{1}{col}.set_title({lists[col-1]})")
+                exec(f"ax{2}{col}.imshow(O_dict[{(lists[col-1][0],lists[col-1][1],45)}])")
+                exec(f"ax{3}{col}.imshow(O_dict[{(lists[col-1][0],lists[col-1][1],90)}])")
+                exec(f"ax{4}{col}.imshow(O_dict[{(lists[col-1][0],lists[col-1][1],135)}])")
+        plt.show()
+    
     if ifshow:
         plt.imshow(I_bar)
         plt.title("I_bar")
@@ -348,7 +360,7 @@ def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False)
 
 
 if __name__ == "__main__":
-    itti_saliency_map = Itti_Saliency_map("test_jpgs/circle.jpg",ifshow=False)
+    itti_saliency_map = Itti_Saliency_map("test_jpgs/circle.jpg",ifshow=True)
     print(itti_saliency_map)
     plt.imshow(itti_saliency_map)
     plt.show()
