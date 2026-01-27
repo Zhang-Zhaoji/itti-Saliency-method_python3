@@ -17,9 +17,6 @@ def timer(func):
     return wrapper  
 
 
-
-
-
 ##-----------------------##
 """
 If you want to use this code, you can just \n
@@ -216,7 +213,7 @@ the following function is the most important function
 ##--------------------------##
 @timer
 def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False):
-    print("reading image")
+    # print("reading image")
     try:
         image = read_image(image_path)
     except:
@@ -224,7 +221,7 @@ def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False)
             raise RuntimeError(f"Check if the path is correct ({image_path}) or change the png file into jpg format for it was wrongly saved")
         raise RuntimeError(f"Check if the path is correct ({image_path})")
     
-    print("start processing")
+    # print("start processing")
         
     resized_image = resize_to_normal_shape(image)
     gaussian_img_list = eight_pyrimid_built(resized_image)
@@ -293,8 +290,8 @@ def Itti_Saliency_map(image_path = "./test_images/standard.jpg", ifshow = False)
 
     
 
-    print(f"we get 42 = {len(I_dict)+len(RG_dict)+len(BY_dict)+len(O_dict)} maps, including {len(I_dict)} Intensity maps,\
-    {len(RG_dict)}+{len(BY_dict)} = {len(RG_dict)+len(BY_dict)} color maps and {len(O_dict)} orientation maps")
+    # print(f"we get 42 = {len(I_dict)+len(RG_dict)+len(BY_dict)+len(O_dict)} maps, including {len(I_dict)} Intensity maps,\
+    # {len(RG_dict)}+{len(BY_dict)} = {len(RG_dict)+len(BY_dict)} color maps and {len(O_dict)} orientation maps")
     if ifshow:
         show_intensity_map(I_dict)
         show_colored_map(RG_dict,BY_dict)
